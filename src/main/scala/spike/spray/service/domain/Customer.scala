@@ -8,5 +8,6 @@ case class Customer (
   firstName: Option[String] = None,
   middleName: Option[String] = None,
   lastName: Option[String] = None,
-  dateOfBirth: Option[Date] = None
+  dateOfBirth: Option[Date] = None,
+  journey: Option[Journey] = None
 )

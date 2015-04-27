@@ -5,7 +5,7 @@ import spray.json.RootJsonFormat
 import java.util.Date
 import spray.json.JsValue
 import spray.json.JsString
-import spike.spray.service.domain.Customer
+import spike.spray.service.domain.{TransitCountries, Journey, Customer}
 import akka.event.slf4j.SLF4JLogging
 
 object ETDJsonProtocol extends DefaultJsonProtocol with SLF4JLogging{
@@ -16,5 +16,8 @@ object ETDJsonProtocol extends DefaultJsonProtocol with SLF4JLogging{
     def write(date: Date) =  JsString(formatter.format(date))
   }
 
-  implicit val customerFormat = jsonFormat6(Customer)
+  implicit val transitCountriesFormat = jsonFormat(TransitCountries, "countryName")
+  implicit val journeyFormat = jsonFormat5(Journey)
+  implicit val customerFormat = jsonFormat7(Customer)
+
 }

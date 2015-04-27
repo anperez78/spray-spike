@@ -1,11 +1,13 @@
 package spike.spray.service.rest
 
 import akka.actor.Actor
+import spray.http.HttpHeaders.Date
 import spray.routing.{RequestContext, HttpService}
 import spray.http.MediaTypes._
 import akka.event.slf4j.SLF4JLogging
 import spray.http.{StatusCode, StatusCodes}
-import spike.spray.service.domain.{Failure, Customer}
+import spike.spray.service.domain.{TransitCountries, Journey, Failure, Customer}
+
 
 
 // we don't implement our route structure directly in the service actor because
@@ -85,7 +87,9 @@ trait ETDHttpService extends HttpService with SLF4JLogging {
                   firstName = Some("John"),
                   middleName = Some("T"),
                   lastName = Some("Smith"),
-                  dateOfBirth = None
+                  dateOfBirth = None,
+                  journey = Some(Journey(Some(123), None, Some(""),
+                    Some(TransitCountries(Some(Array(Map("Kiribati"->1, "Iraq"->2))))), None))
                 )
               )
             }
@@ -105,7 +109,7 @@ trait ETDHttpService extends HttpService with SLF4JLogging {
 
     action match {
       case Right(result: Customer) =>
-        ctx.complete( result.toJson.compactPrint)
+        ctx.complete( result.toJson.prettyPrint)
       case Left(error: Failure) =>
         ctx.complete(error.getStatusCode, (Map("error" -> error.message)).toJson.compactPrint)
       case _ =>
