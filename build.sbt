@@ -1,4 +1,4 @@
-organization  := "uk.gov.fco.etc.service"
+organization  := "spike.spray.service"
 
 version       := "0.1"
 
